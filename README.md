@@ -4,4 +4,4 @@ This repository contains my solutions for this year's Advent of Code.
 
 ## Table of Contents
 
-* [Day 01 - Submarine, Ocean Sweeper](day-01/src/main/java/submarine/DepthMeasurement.java)
+* [Day 01 - Sonar Sweep](day-01-sonar-sweep/src/main/java/com/michaelburgstaller/adventofcode/sonarsweep/SonarSweep.java)

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.michaelburgstaller.adventofcode</groupId>
-    <artifactId>day-01</artifactId>
+    <artifactId>day-01-sonar-sweep</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

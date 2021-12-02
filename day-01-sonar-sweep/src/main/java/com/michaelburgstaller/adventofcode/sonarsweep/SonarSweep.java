@@ -1,4 +1,4 @@
-package submarine;
+package com.michaelburgstaller.adventofcode.sonarsweep;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DepthMeasurement {
+public class SonarSweep {
 
     private static BufferedReader getFileReader(String path) {
         var inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
