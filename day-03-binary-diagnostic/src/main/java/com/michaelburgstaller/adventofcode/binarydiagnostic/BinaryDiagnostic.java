@@ -1,12 +1,12 @@
 package com.michaelburgstaller.adventofcode.binarydiagnostic;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import com.michaelburgstaller.adventofcode.common.Exercise;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class BinaryDiagnostic {
+public class BinaryDiagnostic extends Exercise {
 
     private static final Integer NUMBER_OF_BITS = 12;
 
@@ -18,12 +18,6 @@ public class BinaryDiagnostic {
             this.mostCommon = mostCommon;
             this.leastCommon = leastCommon;
         }
-    }
-
-    private static BufferedReader getFileReader(String path) {
-        var inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-        var inputStreamReader = new InputStreamReader(inputStream);
-        return new BufferedReader(inputStreamReader);
     }
 
     private static BitOccurrence determineBitOccurrence(List<String> binaryNumbers, Integer position) {
@@ -87,8 +81,7 @@ public class BinaryDiagnostic {
     }
 
     public static void main(String[] args) {
-        var fileReader = getFileReader("input.txt");
-        var numbers = fileReader.lines().toList();
+        var numbers = getLineStream().toList();
 
         powerConsumption(numbers);
         lifeSupportRating(numbers);

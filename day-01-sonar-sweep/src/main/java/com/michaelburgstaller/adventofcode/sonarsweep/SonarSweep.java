@@ -1,20 +1,14 @@
 package com.michaelburgstaller.adventofcode.sonarsweep;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import com.michaelburgstaller.adventofcode.common.Exercise;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class SonarSweep {
-
-    private static BufferedReader getFileReader(String path) {
-        var inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-        var inputStreamReader = new InputStreamReader(inputStream);
-        return new BufferedReader(inputStreamReader);
-    }
+public class SonarSweep extends Exercise {
 
     private static <T> Stream<T[]> slideOver(Class<T> clazz, List<T> elements, Integer windowSize) {
         if (windowSize > elements.size() || windowSize <= 0) {
@@ -38,8 +32,7 @@ public class SonarSweep {
     }
 
     public static void main(String[] args) {
-        var fileReader = getFileReader("depths.txt");
-        var depths = fileReader.lines().map(Long::valueOf).toList();
+        var depths = getLineStream().map(Long::parseLong).toList();
 
         System.out.println("[Window: 1 element] The depth increased " + sweepOceanFloor(depths, 1) + " times!");
         System.out.println("[Window: 3 elements] The depth increased " + sweepOceanFloor(depths, 3) + " times!");

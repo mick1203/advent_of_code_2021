@@ -5,20 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.michaelburgstaller.adventofcode</groupId>
-    <artifactId>day-03-binary-diagnostic</artifactId>
+    <artifactId>day-00-common</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.michaelburgstaller.adventofcode</groupId>
-            <artifactId>day-00-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 
 </project>

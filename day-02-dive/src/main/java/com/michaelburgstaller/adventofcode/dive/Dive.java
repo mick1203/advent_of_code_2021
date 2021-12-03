@@ -1,15 +1,47 @@
 package com.michaelburgstaller.adventofcode.dive;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import com.michaelburgstaller.adventofcode.common.Exercise;
+
 import java.util.List;
 
-public class Dive {
+public class Dive extends Exercise {
 
-    private static BufferedReader getFileReader(String path) {
-        var inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-        var inputStreamReader = new InputStreamReader(inputStream);
-        return new BufferedReader(inputStreamReader);
+    private static class DivingContext {
+        public Integer horizontalPosition = 0;
+        public Integer depth = 0;
+        public Integer aim = 0;
+    }
+
+    private enum CommandType {
+        FORWARD,
+        UP,
+        DOWN;
+
+        public static CommandType parse(String rawValue) {
+            return switch (rawValue) {
+                case "forward" -> FORWARD;
+                case "up" -> UP;
+                case "down" -> DOWN;
+                default -> throw new IllegalArgumentException("'" + rawValue + "' is not a valid command!");
+            };
+        }
+    }
+
+    public static class Command {
+        public CommandType commandType;
+        public Integer distance;
+
+        public Command(CommandType commandType, Integer distance) {
+            this.commandType = commandType;
+            this.distance = distance;
+        }
+
+        public static Command parse(String rawValue) {
+            var tokens = rawValue.split(" ");
+            var commandType = CommandType.parse(tokens[0]);
+            var distance = Integer.parseInt(tokens[1]);
+            return new Command(commandType, distance);
+        }
     }
 
     private static void simpleCommands(List<Command> commands) {
@@ -48,8 +80,7 @@ public class Dive {
     }
 
     public static void main(String[] args) {
-        var fileReader = getFileReader("commands.txt");
-        var commands = fileReader.lines().map(Command::parse).toList();
+        var commands = getLineStream().map(Command::parse).toList();
 
         simpleCommands(commands);
         complexCommands(commands);
