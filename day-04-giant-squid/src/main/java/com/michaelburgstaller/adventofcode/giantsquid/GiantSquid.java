@@ -37,9 +37,11 @@ public class GiantSquid extends Exercise {
 
     private static class BingoBoard implements Iterable<BingoField> {
         public BingoField[][] grid;
+        public Integer score;
 
         public BingoBoard(BingoField[][] grid) {
             this.grid = grid;
+            this.score = 0;
         }
 
         @Override
@@ -78,6 +80,23 @@ public class GiantSquid extends Exercise {
 
             return false;
         }
+
+        public void calculateScore(Integer lastDrawnNumber) {
+            score = 0;
+            for (var field : this) {
+                if (field.marked) continue;
+                score += field.number;
+            }
+            score *= lastDrawnNumber;
+        }
+
+        public void reset() {
+            score = 0;
+            for (var field : this) {
+                field.marked = false;
+            }
+        }
+
 
         @Override
         public String toString() {
@@ -157,28 +176,48 @@ public class GiantSquid extends Exercise {
         return batches.stream();
     }
 
+    private static List<List<BingoBoard>> findWinningRoundsInOrder(List<Integer> drawnNumbers, List<BingoBoard> boards) {
+        boards.forEach(BingoBoard::reset);
+        var playingBoards = new ArrayList<>(boards);
+        var finishedBoards = new ArrayList<List<BingoBoard>>();
+
+        for (var drawnNumber : drawnNumbers) {
+            playingBoards.forEach(board -> board.markNumberIfPresent(drawnNumber));
+            var boardsThatWon = playingBoards.stream().filter(BingoBoard::hasWon).toList();
+            if (boardsThatWon.size() > 0) {
+                playingBoards.removeAll(boardsThatWon);
+                boardsThatWon.forEach(board -> board.calculateScore(drawnNumber));
+                finishedBoards.add(boardsThatWon.stream().toList());
+            }
+        }
+
+        return finishedBoards;
+    }
+
+    private static void findFirstWinningBoard(List<Integer> drawnNumbers, List<BingoBoard> boards) {
+        var winningRoundsInOrder = findWinningRoundsInOrder(drawnNumbers, boards);
+
+        var firstWinningRound = winningRoundsInOrder.get(0);
+        var firstWinningBoard = firstWinningRound.get(0);
+        System.out.println("First Winning Board:" + "\n" + firstWinningBoard);
+        System.out.println("Score: " + firstWinningBoard.score);
+    }
+
+    private static void findLastWinningBoard(List<Integer> drawnNumbers, List<BingoBoard> boards) {
+        var winningRoundsInOrder = findWinningRoundsInOrder(drawnNumbers, boards);
+
+        var lastWinningRound = winningRoundsInOrder.get(winningRoundsInOrder.size() - 1);
+        var lastWinningBoard = lastWinningRound.get(0);
+        System.out.println("Last Winning Board:" + "\n" + lastWinningBoard);
+        System.out.println("Score: " + lastWinningBoard.score);
+    }
+
     public static void main(String[] args) {
         var batches = bufferLines(getLineStream()).toList();
         var drawnNumbers = batches.get(0).stream().flatMap(list -> Arrays.stream(list.split(","))).map(Integer::parseInt).toList();
         var boards = batches.stream().dropWhile(line -> line.size() == 1).map(lines -> lines.stream().collect(Collectors.joining("\n"))).map(BingoBoard::parse).toList();
 
-        for (var drawnNumber : drawnNumbers) {
-            boards.forEach(board -> board.markNumberIfPresent(drawnNumber));
-            var boardsThatWon = boards.stream().filter(BingoBoard::hasWon).toList();
-
-            if (boardsThatWon.size() != 0) {
-                var winningBoard = boardsThatWon.get(0);
-
-                var sumOfUnmarkedFields = 0;
-                for (var field : winningBoard) {
-                    if (field.marked) continue;
-                    sumOfUnmarkedFields += field.number;
-                }
-
-                System.out.println(winningBoard);
-                System.out.println(sumOfUnmarkedFields * drawnNumber);
-                break;
-            }
-        }
+        findFirstWinningBoard(drawnNumbers, boards);
+        findLastWinningBoard(drawnNumbers, boards);
     }
 }
