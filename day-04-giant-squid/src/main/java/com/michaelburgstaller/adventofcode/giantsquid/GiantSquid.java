@@ -96,7 +96,6 @@ public class GiantSquid extends Exercise {
             }
         }
 
-
         @Override
         public String toString() {
             var builder = new StringBuilder();
@@ -165,7 +164,7 @@ public class GiantSquid extends Exercise {
         for (var drawnNumber : drawnNumbers) {
             playingBoards.forEach(board -> board.markNumberIfPresent(drawnNumber));
             var boardsThatWon = playingBoards.stream().filter(BingoBoard::hasWon).toList();
-            if (boardsThatWon.size() > 0) {
+            if (!boardsThatWon.isEmpty()) {
                 playingBoards.removeAll(boardsThatWon);
                 boardsThatWon.forEach(board -> board.calculateScore(drawnNumber));
                 finishedBoards.add(boardsThatWon.stream().toList());
@@ -195,8 +194,13 @@ public class GiantSquid extends Exercise {
 
     public static void main(String[] args) {
         var batches = getBufferedLineStream().toList();
-        var drawnNumbers = batches.get(0).stream().flatMap(list -> Arrays.stream(list.split(","))).map(Integer::parseInt).toList();
-        var boards = batches.stream().dropWhile(line -> line.size() == 1).map(lines -> lines.stream().collect(Collectors.joining("\n"))).map(BingoBoard::parse).toList();
+        var drawnNumbers = batches.get(0).stream()
+                .flatMap(list -> Arrays.stream(list.split(",")))
+                .map(Integer::parseInt).toList();
+        var boards = batches.stream()
+                .dropWhile(line -> line.size() == 1)
+                .map(lines -> lines.stream().collect(Collectors.joining("\n")))
+                .map(BingoBoard::parse).toList();
 
         findFirstWinningBoard(drawnNumbers, boards);
         findLastWinningBoard(drawnNumbers, boards);
