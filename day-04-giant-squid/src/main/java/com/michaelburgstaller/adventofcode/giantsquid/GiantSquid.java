@@ -194,7 +194,7 @@ public class GiantSquid extends Exercise {
     }
 
     public static void main(String[] args) {
-        var batches = bufferLines(getLineStream()).toList();
+        var batches = getBufferedLineStream().toList();
         var drawnNumbers = batches.get(0).stream().flatMap(list -> Arrays.stream(list.split(","))).map(Integer::parseInt).toList();
         var boards = batches.stream().dropWhile(line -> line.size() == 1).map(lines -> lines.stream().collect(Collectors.joining("\n"))).map(BingoBoard::parse).toList();
 
