@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GiantSquid extends Exercise {
 
@@ -156,24 +155,6 @@ public class GiantSquid extends Exercise {
                 return field;
             }
         }
-    }
-
-    private static Stream<List<String>> bufferLines(Stream<String> lineStream) {
-        var data = lineStream.toList();
-        var batches = new ArrayList<List<String>>();
-        var batch = new ArrayList<String>();
-
-        for (var line : data) {
-            if (line.isBlank()) {
-                batches.add(List.copyOf(batch));
-                batch.clear();
-                continue;
-            }
-            batch.add(line.strip());
-        }
-        batches.add(batch);
-
-        return batches.stream();
     }
 
     private static List<List<BingoBoard>> findWinningRoundsInOrder(List<Integer> drawnNumbers, List<BingoBoard> boards) {
