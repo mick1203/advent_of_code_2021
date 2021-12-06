@@ -70,18 +70,26 @@ public class HydrothermalVenture extends Exercise {
         }
 
         public void draw(Line line) {
-            var minX = Math.min(line.start.x, line.end.x);
-            var minY = Math.min(line.start.y, line.end.y);
-            var maxX = Math.max(line.start.x, line.end.x);
-            var maxY = Math.max(line.start.y, line.end.y);
+            var xDiff = Math.abs(line.start.x - line.end.x);
+            var yDiff = Math.abs(line.start.y - line.end.y);
+            var xStep = line.start.x.compareTo(line.end.x) * -1;
+            var yStep = line.start.y.compareTo(line.end.y) * -1;
 
-            if (minX == maxX) {
-                for (var y = minY; y <= maxY; y++) {
-                    grid[minX][y] += 1;
+            if (xDiff == 0) {
+                for (var i = 0; i < xDiff; i++) {
+                    var y = line.start.y + i * yStep;
+                    grid[line.start.x][y] += 1;
                 }
-            } else if (minY == maxY) {
-                for (var x = minX; x <= maxX; x++) {
-                    grid[x][minY] += 1;
+            } else if (yDiff == 0) {
+                for (var i = 0; i < yDiff; i++) {
+                    var x = line.start.x + i * xStep;
+                    grid[x][line.start.y] += 1;
+                }
+            } else {
+                for (var i = 0; i < xDiff; i++) {
+                    var x = line.start.x + i * xStep;
+                    var y = line.start.y + i * yStep;
+                    grid[x][y] += 1;
                 }
             }
         }
