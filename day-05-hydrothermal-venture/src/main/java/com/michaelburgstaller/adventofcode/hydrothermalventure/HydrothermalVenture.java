@@ -76,17 +76,17 @@ public class HydrothermalVenture extends Exercise {
             var yStep = line.start.y.compareTo(line.end.y) * -1;
 
             if (xDiff == 0) {
-                for (var i = 0; i < xDiff; i++) {
+                for (var i = 0; i <= yDiff; i++) {
                     var y = line.start.y + i * yStep;
                     grid[line.start.x][y] += 1;
                 }
             } else if (yDiff == 0) {
-                for (var i = 0; i < yDiff; i++) {
+                for (var i = 0; i <= xDiff; i++) {
                     var x = line.start.x + i * xStep;
                     grid[x][line.start.y] += 1;
                 }
             } else {
-                for (var i = 0; i < xDiff; i++) {
+                for (var i = 0; i <= xDiff; i++) {
                     var x = line.start.x + i * xStep;
                     var y = line.start.y + i * yStep;
                     grid[x][y] += 1;
@@ -142,7 +142,9 @@ public class HydrothermalVenture extends Exercise {
         var width = lines.stream().map(line -> Math.max(line.start.x, line.end.x)).reduce(0, Math::max);
         var grid = new Grid(width + 1, height + 1); // +1 due to zero-indexing
 
-        lines.forEach(grid::draw);
+        lines.stream()
+            // .filter(line -> (line.start.x.compareTo(line.end.x) == 0) || (line.start.y.compareTo(line.end.y) == 0))
+            .forEach(grid::draw);
 
         var points = grid.findPointsWithOverlaps(2);
 
