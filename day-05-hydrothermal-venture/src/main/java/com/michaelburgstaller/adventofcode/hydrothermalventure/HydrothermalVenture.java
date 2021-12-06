@@ -134,9 +134,7 @@ public class HydrothermalVenture extends Exercise {
         var width = lines.stream().map(line -> Math.max(line.start.x, line.end.x)).reduce(0, Math::max);
         var grid = new Grid(width + 1, height + 1); // +1 due to zero-indexing
 
-        lines.stream()
-                .filter(line -> (line.start.x == line.end.x) || (line.start.y == line.end.y))
-                .forEach(grid::draw);
+        lines.forEach(grid::draw);
 
         var points = grid.findPointsWithOverlaps(2);
 
