@@ -6,30 +6,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.stream.IntStream;
 
 public class TreacheryOfWhales extends Exercise {
 
-    private static final Integer calculateFuelExpense(List<Integer> crabSubmarines, Integer desiredPosition) {
+    private static final Integer calculateFuelExpense(List<Integer> crabSubmarines, Integer desiredPosition, BiFunction<Integer, Integer, Integer> fuelConsumption) {
         var fuelExpense = 0;
 
         for (var crabSubmarine : crabSubmarines) {
-            fuelExpense += Math.abs(crabSubmarine - desiredPosition);
+            fuelExpense += fuelConsumption.apply(crabSubmarine, desiredPosition);
         }
 
         return fuelExpense;
     }
 
-    private static void findLeastExpensivePosition(List<Integer> crabSubmarines) {
-        var crabs = new ArrayList<>(crabSubmarines);
-        crabs.sort(Comparator.naturalOrder());
+    private static void findLeastExpensivePosition(List<Integer> submarines, BiFunction<Integer, Integer, Integer> fuelConsumption) {
+        var sortedSubmarines = new ArrayList<>(submarines);
+        sortedSubmarines.sort(Comparator.naturalOrder());
 
-        var minimumPosition = crabs.get(0);
-        var maximumPosition = crabs.get(crabs.size() - 1) + 1; // also include maximum position
+        var minimumPosition = sortedSubmarines.get(0);
+        var maximumPosition = sortedSubmarines.get(sortedSubmarines.size() - 1);
 
         var smallestFuelExpense = Integer.MAX_VALUE;
         var optimalPosition = 0;
-        for (var i = minimumPosition; i < maximumPosition; i++) {
-            var fuelExpense = calculateFuelExpense(crabs, i);
+        for (var i = minimumPosition; i <= maximumPosition; i++) { // also include maximumPosition
+            var fuelExpense = calculateFuelExpense(sortedSubmarines, i, fuelConsumption);
             if (fuelExpense < smallestFuelExpense) {
                 smallestFuelExpense = fuelExpense;
                 optimalPosition = i;
@@ -45,6 +47,7 @@ public class TreacheryOfWhales extends Exercise {
                 .map(Integer::parseInt)
                 .toList();
 
-        findLeastExpensivePosition(crabSubmarines);
+        findLeastExpensivePosition(crabSubmarines, (crabSubmarine, desiredPosition) -> Math.abs(crabSubmarine - desiredPosition));
+        findLeastExpensivePosition(crabSubmarines, (crabSubmarine, desiredPosition) -> IntStream.range(0, Math.abs(crabSubmarine - desiredPosition) + 1).sum());
     }
 }
