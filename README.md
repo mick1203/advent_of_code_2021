@@ -9,4 +9,5 @@ This repository contains my solutions for this year's Advent of Code.
 * [Day 03 - Binary Diagnostic](day-03-binary-diagnostic/src/main/java/com/michaelburgstaller/adventofcode/binarydiagnostic/BinaryDiagnostic.java) ⭐ ⭐
 * [Day 04 - Giant Squid](day-04-giant-squid/src/main/java/com/michaelburgstaller/adventofcode/giantsquid/GiantSquid.java) ⭐ ⭐
 * [Day 05 - Hydrothermal Venture](day-05-hydrothermal-venture/src/main/java/com/michaelburgstaller/adventofcode/hydrothermalventure/HydrothermalVenture.java) ⭐ ⭐
-* [Day 05 - Lanternfish](day-06-lanternfish/src/main/java/com/michaelburgstaller/adventofcode/lanternfish/Lanternfish.java) ⭐
+* [Day 06 - Lanternfish](day-06-lanternfish/src/main/java/com/michaelburgstaller/adventofcode/lanternfish/Lanternfish.java) ⭐
+* [Day 07 - The Treachery of Whales](day-07-the-treachery-of-whales/src/main/java/com/michaelburgstaller/adventofcode/treacheryofwhales/TreacheryOfWhales.java)
