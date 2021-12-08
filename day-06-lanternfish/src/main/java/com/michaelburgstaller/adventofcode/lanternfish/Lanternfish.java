@@ -25,7 +25,7 @@ public class Lanternfish extends Exercise {
 
     private static void simulate(List<Long> fishSwarm, Integer days) {
         Map<Long, Long> descendants = new HashMap<>();
-        descendants.put(0L, 0L); // base case, no time left thus no future offspring
+        descendants.put(0L, 1L); // base case, no time left and there is only one fish
 
         for (var day = 0L; day < days; day++) {
             for (var age = 0L; age < NEW_FISH_REPRODUCTION_CYCLE; age++) {
@@ -42,13 +42,13 @@ public class Lanternfish extends Exercise {
                 //     (0, normalizedDays - NEW_FISH_REPRODUCTION_CYCLE)-fish
                 // and these are also descendants of the current fish
 
-                var nextCycle = Math.max(normalizedDays - FISH_REPRODUCTION_CYCLE, 0L);
-                var firstCycleOfNewFish = Math.max(normalizedDays - NEW_FISH_REPRODUCTION_CYCLE, 0L);
+                var nextCycle = Math.max(normalizedDays - (FISH_REPRODUCTION_CYCLE + 1), 0L);
+                var firstCycleOfNewFish = Math.max(normalizedDays - (NEW_FISH_REPRODUCTION_CYCLE + 1), 0L);
 
                 var ownDescendents = descendants.get(nextCycle);
                 var newFishDescendents = descendants.get(firstCycleOfNewFish);
 
-                var children = 1 + ownDescendents + newFishDescendents;
+                var children = ownDescendents + newFishDescendents;
 
                 descendants.put(normalizedDays, children);
             }
