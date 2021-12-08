@@ -61,50 +61,50 @@ public class SevenSegmentSearch extends Exercise {
         }
 
         private void decodeNotes() {
-            notes.forEach(p -> {
-                switch (p.pattern.length()) {
-                    case 2 -> storePatternAndValue(p.pattern, 1);
-                    case 3 -> storePatternAndValue(p.pattern, 7);
-                    case 4 -> storePatternAndValue(p.pattern, 4);
-                    case 7 -> storePatternAndValue(p.pattern, 8);
+            notes.forEach(note -> {
+                switch (note.pattern.length()) {
+                    case 2 -> storePatternAndValue(note.pattern, 1);
+                    case 3 -> storePatternAndValue(note.pattern, 7);
+                    case 4 -> storePatternAndValue(note.pattern, 4);
+                    case 7 -> storePatternAndValue(note.pattern, 8);
                 }
             });
 
             // calculate 2
-            notes.forEach(p -> {
-                if (p.pattern.length() != 5 || valueMap.containsKey(p.pattern)) return;
-                if (getRemainingSegmentCount(p.pattern, 4) == 3) {
-                    storePatternAndValue(p.pattern, 2);
+            notes.forEach(note -> {
+                if (note.pattern.length() != 5 || valueMap.containsKey(note.pattern)) return;
+                if (getRemainingSegmentCount(note.pattern, 4) == 3) {
+                    storePatternAndValue(note.pattern, 2);
                 }
             });
 
             // calculate 3 and 5
-            notes.forEach(p -> {
-                if (p.pattern.length() != 5 || valueMap.containsKey(p.pattern)) return;
-                var remainingSegmentCount = getRemainingSegmentCount(p.pattern, 2);
+            notes.forEach(note -> {
+                if (note.pattern.length() != 5 || valueMap.containsKey(note.pattern)) return;
+                var remainingSegmentCount = getRemainingSegmentCount(note.pattern, 2);
                 if (remainingSegmentCount == 2) {
-                    storePatternAndValue(p.pattern, 5);
+                    storePatternAndValue(note.pattern, 5);
                 } else if (remainingSegmentCount == 1) {
-                    storePatternAndValue(p.pattern, 3);
+                    storePatternAndValue(note.pattern, 3);
                 }
             });
 
             // calculate 0
-            notes.forEach(p -> {
-                if (p.pattern.length() != 6 || valueMap.containsKey(p.pattern)) return;
-                if (getRemainingSegmentCount(p.pattern, 5) == 2) {
-                    storePatternAndValue(p.pattern, 0);
+            notes.forEach(note -> {
+                if (note.pattern.length() != 6 || valueMap.containsKey(note.pattern)) return;
+                if (getRemainingSegmentCount(note.pattern, 5) == 2) {
+                    storePatternAndValue(note.pattern, 0);
                 }
             });
 
             // calculate 6 and 9
-            notes.forEach(p -> {
-                if (p.pattern.length() != 6 || valueMap.containsKey(p.pattern)) return;
-                var remainingSegmentCount = getRemainingSegmentCount(p.pattern, 7);
+            notes.forEach(note -> {
+                if (note.pattern.length() != 6 || valueMap.containsKey(note.pattern)) return;
+                var remainingSegmentCount = getRemainingSegmentCount(note.pattern, 7);
                 if (remainingSegmentCount == 3) {
-                    storePatternAndValue(p.pattern, 9);
+                    storePatternAndValue(note.pattern, 9);
                 } else if (remainingSegmentCount == 4) {
-                    storePatternAndValue(p.pattern, 6);
+                    storePatternAndValue(note.pattern, 6);
                 }
             });
         }
