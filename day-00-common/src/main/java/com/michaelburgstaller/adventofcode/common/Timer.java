@@ -24,6 +24,8 @@ public class Timer {
 
     @Override
     public String toString() {
-        return "It took '" + (end - start) + "' nanoseconds to execute!";
+        var durationInNanoseconds = (double) (end - start);
+        var nanosecondsPerMillisecond = 1000000.0;
+        return "It took '" + durationInNanoseconds / nanosecondsPerMillisecond + "' milliseconds to execute!";
     }
 }
