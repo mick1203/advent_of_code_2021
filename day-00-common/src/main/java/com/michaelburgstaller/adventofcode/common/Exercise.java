@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 public class Exercise {
 
+    protected static final Timer timer = new Timer();
+
     protected static BufferedReader getFileReader(String path) {
         var inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
         var inputStreamReader = new InputStreamReader(inputStream);
