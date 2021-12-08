@@ -29,45 +29,19 @@ public class SevenSegmentSearch extends Exercise {
         }
     }
 
-    private static class Output {
-        public Pattern pattern;
-        public Integer value;
-
-        public Output(Pattern pattern) {
-            this.pattern = pattern;
-            this.value = null;
-        }
-
-        public void decode(Map<String, Integer> valueMap) {
-            this.value = valueMap.get(pattern.pattern);
-        }
-
-        @Override
-        public String toString() {
-            return pattern.pattern + '(' + value + ')';
-        }
-
-        public static Output parse(String rawValue) {
-            var pattern = Pattern.parse(rawValue);
-            return new Output(pattern);
-        }
-    }
-
     private static class Entry {
-        public List<Pattern> patterns;
-        public List<Output> outputs;
+        public List<Pattern> notes;
+        public List<Pattern> outputs;
 
         public Map<Integer, String> patternMap;
         public Map<String, Integer> valueMap;
-        public Integer decodedValue;
 
-        public Entry(List<Pattern> patterns, List<Output> outputs) {
-            this.patterns = patterns;
+        public Entry(List<Pattern> notes, List<Pattern> outputs) {
+            this.notes = notes;
             this.outputs = outputs;
 
             this.patternMap = new HashMap<>();
             this.valueMap = new HashMap<>();
-            this.decodedValue = null;
         }
 
         private Integer getRemainingSegmentCount(String pattern, Integer number) {
@@ -86,8 +60,8 @@ public class SevenSegmentSearch extends Exercise {
             patternMap.put(value, pattern);
         }
 
-        public void decode() {
-            patterns.forEach(p -> {
+        private void decodeNotes() {
+            notes.forEach(p -> {
                 switch (p.pattern.length()) {
                     case 2 -> storePatternAndValue(p.pattern, 1);
                     case 3 -> storePatternAndValue(p.pattern, 7);
@@ -97,7 +71,7 @@ public class SevenSegmentSearch extends Exercise {
             });
 
             // calculate 2
-            patterns.forEach(p -> {
+            notes.forEach(p -> {
                 if (p.pattern.length() != 5 || valueMap.containsKey(p.pattern)) return;
                 if (getRemainingSegmentCount(p.pattern, 4) == 3) {
                     storePatternAndValue(p.pattern, 2);
@@ -105,7 +79,7 @@ public class SevenSegmentSearch extends Exercise {
             });
 
             // calculate 3 and 5
-            patterns.forEach(p -> {
+            notes.forEach(p -> {
                 if (p.pattern.length() != 5 || valueMap.containsKey(p.pattern)) return;
                 var remainingSegmentCount = getRemainingSegmentCount(p.pattern, 2);
                 if (remainingSegmentCount == 2) {
@@ -116,7 +90,7 @@ public class SevenSegmentSearch extends Exercise {
             });
 
             // calculate 0
-            patterns.forEach(p -> {
+            notes.forEach(p -> {
                 if (p.pattern.length() != 6 || valueMap.containsKey(p.pattern)) return;
                 if (getRemainingSegmentCount(p.pattern, 5) == 2) {
                     storePatternAndValue(p.pattern, 0);
@@ -124,7 +98,7 @@ public class SevenSegmentSearch extends Exercise {
             });
 
             // calculate 6 and 9
-            patterns.forEach(p -> {
+            notes.forEach(p -> {
                 if (p.pattern.length() != 6 || valueMap.containsKey(p.pattern)) return;
                 var remainingSegmentCount = getRemainingSegmentCount(p.pattern, 7);
                 if (remainingSegmentCount == 3) {
@@ -133,33 +107,35 @@ public class SevenSegmentSearch extends Exercise {
                     storePatternAndValue(p.pattern, 6);
                 }
             });
+        }
 
-            outputs.forEach(output -> output.decode(valueMap));
+        public Integer decode() {
+            if (valueMap.size() != 10) decodeNotes();
 
-            var values = outputs.stream()
-                    .map(output -> output.value.toString())
-                    .collect(Collectors.toList());
+            var value = outputs.stream()
+                    .map(output -> valueMap.get(output.pattern).toString())
+                    .collect(Collectors.joining());
 
-            decodedValue = Integer.parseInt(String.join("", values));
+            return Integer.parseInt(String.join("", value));
         }
 
         @Override
         public String toString() {
-            return "Entry: [" + patterns + " | " + outputs + "] => " + decodedValue;
+            return "Entry: " + notes + " | " + outputs;
         }
 
         public static Entry parse(String rawValue) {
             var entryTokens = rawValue.split("\\|");
             var patterns = Arrays.stream(entryTokens[0].strip().split(" ")).map(Pattern::parse).toList();
-            var outputs = Arrays.stream(entryTokens[1].strip().split(" ")).map(Output::parse).toList();
+            var outputs = Arrays.stream(entryTokens[1].strip().split(" ")).map(Pattern::parse).toList();
             return new Entry(patterns, outputs);
         }
     }
 
     private static void countOccurrencesOfOneFourSevenAndEight(List<Entry> entries) {
         var occurrences = entries.stream()
-                .flatMap(entry -> entry.outputs.stream())
-                .filter(output -> output.value == 1 || output.value == 4 || output.value == 7 || output.value == 8)
+                .flatMap(entry -> Arrays.stream(entry.decode().toString().split("")).map(Integer::parseInt))
+                .filter(digit -> digit == 1 || digit == 4 || digit == 7 || digit == 8)
                 .count();
 
         System.out.println("There are a total of '" + occurrences + "' 1s, 4s, 7s, and 8s in the input");
@@ -167,7 +143,7 @@ public class SevenSegmentSearch extends Exercise {
 
     private static void calculateSumOfOutputValues(List<Entry> entries) {
         var sumOfOutpuValues = entries.stream()
-                .map(entry -> entry.decodedValue)
+                .map(entry -> entry.decode())
                 .reduce(0, Integer::sum);
 
         System.out.println("The sum of all the outputs is '" + sumOfOutpuValues + "'");
