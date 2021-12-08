@@ -2,16 +2,26 @@ package com.michaelburgstaller.adventofcode.lanternfish;
 
 import com.michaelburgstaller.adventofcode.common.Exercise;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Lanternfish extends Exercise {
 
     private static final Long FISH_MATURITY_TIME_FRAME = 2L;
     private static final Long FISH_REPRODUCTION_CYCLE = 6L;
     private static final Long NEW_FISH_REPRODUCTION_CYCLE = FISH_REPRODUCTION_CYCLE + FISH_MATURITY_TIME_FRAME;
+
+    private static void simulateBruteForce(List<Long> lanternfish, Integer days) {
+        List<Long> localPopulation = new ArrayList<>(lanternfish);
+
+        for (var i = 0; i < days; i++) {
+            localPopulation = localPopulation.stream()
+                    .flatMap(fish -> fish == 0L ? Stream.of(6L, 8L) : Stream.of(fish - 1L))
+                    .toList();
+        }
+
+        System.out.println("After '" + days + "' days there are a total of '" + localPopulation.size() + "' lanternfish");
+    }
 
     private static void simulate(List<Long> fishSwarm, Integer days) {
         Map<Long, Long> descendants = new HashMap<>();
@@ -26,8 +36,8 @@ public class Lanternfish extends Exercise {
 
                 var normalizedDays = day - age;
 
-                // the (0,normalizedDays)-fish produces a new fish, [+1]
-                // and keeps producing until the end,               [descendants.get(normalizedDays)]
+                // the (0,normalizedDays)-fish produces a new fish,
+                // and keeps producing until the end,
                 // the new fish is the same as a
                 //     (0, normalizedDays - NEW_FISH_REPRODUCTION_CYCLE)-fish
                 // and these are also descendants of the current fish
@@ -53,12 +63,12 @@ public class Lanternfish extends Exercise {
     }
 
     public static void main(String[] args) {
-        var lanternfish = getLineStream("example.txt")
+        var lanternfish = getLineStream()
                 .flatMap(line -> Arrays.stream(line.split(",")))
                 .map(Long::parseLong)
                 .toList();
 
-        simulate(lanternfish, 18);
+        simulateBruteForce(lanternfish, 80);
         simulate(lanternfish, 80);
         simulate(lanternfish, 256);
     }
