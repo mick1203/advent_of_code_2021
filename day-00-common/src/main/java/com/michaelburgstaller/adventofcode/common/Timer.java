@@ -26,6 +26,6 @@ public class Timer {
     public String toString() {
         var durationInNanoseconds = (double) (end - start);
         var nanosecondsPerMillisecond = 1000000.0;
-        return "It took '" + durationInNanoseconds / nanosecondsPerMillisecond + "' milliseconds to execute!";
+        return "It took " + durationInNanoseconds / nanosecondsPerMillisecond + "ms to execute!";
     }
 }
