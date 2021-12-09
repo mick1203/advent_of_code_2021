@@ -75,6 +75,24 @@ public class SmokeBasin extends Exercise {
         public Integer getSize() {
             return points.size();
         }
+
+        @Override
+        public String toString() {
+            var builder = new StringBuilder();
+
+            for (var row = 0; row < floor.grid.length; row++) {
+                for (var column = 0; column < floor.grid[0].length; column++) {
+                    if (containsPoint(points, new Tuple<>(row, column))) {
+                        builder.append("#");
+                    } else {
+                        builder.append(".");
+                    }
+                }
+                builder.append("\n");
+            }
+
+            return builder.toString();
+        }
     }
 
     public static Boolean containsPoint(List<Tuple<Integer, Integer>> list, Tuple<Integer, Integer> point) {
