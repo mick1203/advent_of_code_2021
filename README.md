@@ -13,3 +13,4 @@ This repository contains my solutions for this year's Advent of Code.
 * [Day 07 - The Treachery of Whales](day-07-the-treachery-of-whales/src/main/java/com/michaelburgstaller/adventofcode/treacheryofwhales/TreacheryOfWhales.java) ⭐ ⭐
 * [Day 08 - Seven Segment Search](day-08-seven-segment-search/src/main/java/com/michaelburgstaller/adventofcode/sevensegmentsearch/SevenSegmentSearch.java) ⭐ ⭐
 * [Day 09 - Smoke Basin](day-09-smoke-basin/src/main/java/com/michaelburgstaller/adventofcode/smokebasin/SmokeBasin.java) ⭐ ⭐
+* [Day 10 - Syntax Scoring](day-10-syntax-scoring/src/main/java/com/michaelburgstaller/adventofcode/syntaxscoring/SyntaxScoring.java) ⭐ ⭐
