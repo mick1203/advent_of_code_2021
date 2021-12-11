@@ -14,3 +14,4 @@ This repository contains my solutions for this year's Advent of Code.
 * [Day 08 - Seven Segment Search](day-08-seven-segment-search/src/main/java/com/michaelburgstaller/adventofcode/sevensegmentsearch/SevenSegmentSearch.java) ⭐ ⭐
 * [Day 09 - Smoke Basin](day-09-smoke-basin/src/main/java/com/michaelburgstaller/adventofcode/smokebasin/SmokeBasin.java) ⭐ ⭐
 * [Day 10 - Syntax Scoring](day-10-syntax-scoring/src/main/java/com/michaelburgstaller/adventofcode/syntaxscoring/SyntaxScoring.java) ⭐ ⭐
+* [Day 11 - Dumbo Octopus](day-11-dumbo-octopus/src/main/java/com/michaelburgstaller/adventofcode/dumbooctopus/DumboOctopus.java) ⭐ ⭐

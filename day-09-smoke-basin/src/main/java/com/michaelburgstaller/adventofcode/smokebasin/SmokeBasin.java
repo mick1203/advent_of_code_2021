@@ -1,6 +1,7 @@
 package com.michaelburgstaller.adventofcode.smokebasin;
 
 import com.michaelburgstaller.adventofcode.common.Exercise;
+import com.michaelburgstaller.adventofcode.common.Tuple;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,16 +31,6 @@ public class SmokeBasin extends Exercise {
             }
 
             return new Floor(grid);
-        }
-    }
-
-    private static class Tuple<L, R> {
-        public L left;
-        public R right;
-
-        public Tuple(L left, R right) {
-            this.left = left;
-            this.right = right;
         }
     }
 
