@@ -15,3 +15,4 @@ This repository contains my solutions for this year's Advent of Code.
 * [Day 09 - Smoke Basin](day-09-smoke-basin/src/main/java/com/michaelburgstaller/adventofcode/smokebasin/SmokeBasin.java) ⭐ ⭐
 * [Day 10 - Syntax Scoring](day-10-syntax-scoring/src/main/java/com/michaelburgstaller/adventofcode/syntaxscoring/SyntaxScoring.java) ⭐ ⭐
 * [Day 11 - Dumbo Octopus](day-11-dumbo-octopus/src/main/java/com/michaelburgstaller/adventofcode/dumbooctopus/DumboOctopus.java) ⭐ ⭐
+* [Day 12 - Passage Pathing](day-12-passage-pathing/src/main/java/com/michaelburgstaller/adventofcode/passagepathing/PassagePathing.java) ⭐ ⭐
