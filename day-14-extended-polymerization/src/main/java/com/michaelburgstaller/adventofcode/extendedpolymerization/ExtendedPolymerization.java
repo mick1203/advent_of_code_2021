@@ -15,18 +15,20 @@ public class ExtendedPolymerization extends Exercise {
             this.mapping = mapping;
         }
 
-        public String extend(String base) {
-            var extended = new StringBuilder();
+        public Map<String, Long> extend(Map<String, Long> state, Map<String, Long> counts) {
+            Map<String, Long> nextState = new HashMap<>();
 
-            var baseTokens = base.split("");
-            for (var i = 0; i < baseTokens.length - 1; i++) {
-                var pair = baseTokens[i] + baseTokens[i + 1];
-                var extension = mapping.get(pair);
-                extended.append(baseTokens[i] + extension);
+            for (var entry : state.entrySet()) {
+                var amount = entry.getValue();
+                var keyTokens = mapping.get(entry.getKey()).split("");
+                counts.put(keyTokens[1], counts.getOrDefault(keyTokens[1], 0L) + amount);
+                for (var i = 0; i < keyTokens.length - 1; i++) {
+                    var pair = keyTokens[i] + keyTokens[i + 1];
+                    nextState.put(pair, nextState.getOrDefault(pair, 0L) + amount);
+                }
             }
-            extended.append(baseTokens[baseTokens.length - 1]);
 
-            return extended.toString();
+            return nextState;
         }
 
         public static Extender parse(List<String> rules) {
@@ -34,7 +36,10 @@ public class ExtendedPolymerization extends Exercise {
 
             for (var rule : rules) {
                 var ruleTokens = rule.strip().split(" -> ");
-                mapping.put(ruleTokens[0], ruleTokens[1]);
+                var lhs = ruleTokens[0];
+                var rhs = ruleTokens[1];
+                var lhsTokens = lhs.split("");
+                mapping.put(lhs, lhsTokens[0] + rhs + lhsTokens[1]);
             }
 
             return new Extender(mapping);
@@ -42,27 +47,26 @@ public class ExtendedPolymerization extends Exercise {
     }
 
     private static void subtractMostCommonFromLeastCommonElementOccurrencesAfterSteps(Extender extender, String initial, Integer steps) {
-        var polymerToBeExtended = initial.split("");
-        var count = new HashMap<String, Integer>();
+        var polymerTokens = initial.split("");
+        Map<String, Long> state = new HashMap<>();
+        Map<String, Long> counts = new HashMap<>();
 
-        for (var i = 0; i < polymerToBeExtended.length - 1; i++) {
-            var base = polymerToBeExtended[i] + polymerToBeExtended[i + 1];
-            for (var j = 0; j < steps; j++) {
-                base = extender.extend(base);
-            }
-
-            if (i < polymerToBeExtended.length - 2) {
-                base = base.substring(0, base.length() - 1);
-            }
-
-            for (var element : base.split("")) {
-                count.put(element, count.getOrDefault(element, 0) + 1);
-            }
+        for(var token : polymerTokens) {
+            counts.put(token, counts.getOrDefault(token, 0L) + 1L);
         }
 
-        var mostCommon = Integer.MIN_VALUE;
-        var leastCommon = Integer.MAX_VALUE;
-        for (var entry : count.values()) {
+        for (var i = 0; i < polymerTokens.length - 1; i++) {
+            var pair = polymerTokens[i] + polymerTokens[i + 1];
+            state.put(pair, state.getOrDefault(pair, 0L) + 1L);
+        }
+
+        for (var i = 0; i < steps; i++) {
+            state = extender.extend(state, counts);
+        }
+
+        var mostCommon = Long.MIN_VALUE;
+        var leastCommon = Long.MAX_VALUE;
+        for (var entry : counts.values()) {
             if (entry < leastCommon) leastCommon = entry;
             if (entry > mostCommon) mostCommon = entry;
         }
@@ -76,6 +80,6 @@ public class ExtendedPolymerization extends Exercise {
         var extender = Extender.parse(batches.get(1));
 
         subtractMostCommonFromLeastCommonElementOccurrencesAfterSteps(extender, initialPolymer, 10);
-        // subtractMostCommonFromLeastCommonElementOccurrencesAfterSteps(extender, initialPolymer, 40);
+        subtractMostCommonFromLeastCommonElementOccurrencesAfterSteps(extender, initialPolymer, 40);
     }
 }
