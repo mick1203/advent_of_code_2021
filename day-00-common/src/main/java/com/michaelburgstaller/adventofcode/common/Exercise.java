@@ -53,6 +53,14 @@ public class Exercise {
         return getBufferedLineStream(getLineStream(), "");
     }
 
+    protected static void printOnSameLine(String value) {
+        System.out.print("\r" + value);
+    }
+
+    protected static void newLine() {
+        System.out.println();
+    }
+
     protected static Stream<List<String>> getBufferedLineStream(Stream<String> lineStream, String separator) {
         var data = lineStream.toList();
         var batches = new ArrayList<List<String>>();

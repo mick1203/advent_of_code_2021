@@ -51,7 +51,7 @@ public class ExtendedPolymerization extends Exercise {
         Map<String, Long> state = new HashMap<>();
         Map<String, Long> counts = new HashMap<>();
 
-        for(var token : polymerTokens) {
+        for (var token : polymerTokens) {
             counts.put(token, counts.getOrDefault(token, 0L) + 1L);
         }
 
