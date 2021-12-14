@@ -16,3 +16,4 @@ This repository contains my solutions for this year's Advent of Code.
 * [Day 10 - Syntax Scoring](day-10-syntax-scoring/src/main/java/com/michaelburgstaller/adventofcode/syntaxscoring/SyntaxScoring.java) ⭐ ⭐
 * [Day 11 - Dumbo Octopus](day-11-dumbo-octopus/src/main/java/com/michaelburgstaller/adventofcode/dumbooctopus/DumboOctopus.java) ⭐ ⭐
 * [Day 12 - Passage Pathing](day-12-passage-pathing/src/main/java/com/michaelburgstaller/adventofcode/passagepathing/PassagePathing.java) ⭐ ⭐
+* [Day 13 - Transparent Origami](day-13-transparent-origami/src/main/java/com/michaelburgstaller/adventofcode/transparentorigami/TransparentOrigami.java) ⭐ ⭐
